@@ -1,7 +1,5 @@
 baseURL = "https://www.guillaumeblackburn.me"
-contentDir = "content"
-layoutDir = "layouts"
-publishDir = "public"
+publishDir = "docs"
 languageCode = "en-us"
 title = "Guillaume Blackburn"
 theme = "hugo-sugoi"
