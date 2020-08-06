@@ -1,0 +1,32 @@
+baseURL = "https://www.guillaumeblackburn.me"
+languageCode = "en-us"
+title = "Guillaume Blackburn"
+theme = "hugo-sugoi"
+summaryLength = 30
+paginate = 5
+paginatePath = "page"
+# Google Analytics ID, Uncomment below line to enable
+# googleAnalytics = "UA-123-45"
+
+# Enter your disqus Shortname and uncomment below line to enable
+# disqusShortname = "yourdiscussshortname"
+[params]
+favicon = "images/favicon.png"
+herotitle = "Guillaume Blackburn"
+herolink = "https://github.com/Skyrhon"
+herolinktext = "My Github"
+contact = "Send me a message and I will get back as soon as possible."
+
+[hero]
+
+[menu]
+    [[menu.nav]]
+        name    = "about me"
+        pre = "<i class='far fa-question-circle'></i>"
+        url     = "about"
+        weight  = -1
+    [[menu.nav]]
+        name    = "all posts"
+        pre = "<i class='fas fa-list'></i>"
+        url     = "post"
+        weight  = -2

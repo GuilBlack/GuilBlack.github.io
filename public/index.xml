@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guillaume Blackburn</title>
+    <link>https://www.guillaumeblackburn.me/</link>
+    <description>Recent content on Guillaume Blackburn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Apr 2020 22:34:49 +0530</lastBuildDate>
+    
+	<atom:link href="https://www.guillaumeblackburn.me/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Air Nation List Style</title>
+      <link>https://www.guillaumeblackburn.me/post/air-nation-list-style/</link>
+      <pubDate>Thu, 23 Apr 2020 22:34:49 +0530</pubDate>
+      
+      <guid>https://www.guillaumeblackburn.me/post/air-nation-list-style/</guid>
+      <description>Ignes poposcit feremur pone Lorem markdownum omnibus dominis quis, nymphae dixit ira operisque; in forti pollice Achille. Cursu oculorum sepulcri et malis, calescit repperit sonum: tardis iam. Aegros ad ecce est occidet licet Achelous columbas et iaculum praecordia pennas, non magistra.</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://www.guillaumeblackburn.me/about/</link>
+      <pubDate>Thu, 23 Apr 2020 19:57:09 +0530</pubDate>
+      
+      <guid>https://www.guillaumeblackburn.me/about/</guid>
+      <description>Quidque corpore Lorem markdownum verbis. Ipso et felices curvos, interit fulmina avellere sed utendum alte, illas; sumusve huc corpora. Formam cupit, imagine cur tulerunt Ligdo laborum, elige natae, serpens distent quietis sagittas; tuo.</description>
+    </item>
+    
+  </channel>
+</rss>

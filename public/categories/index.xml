@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Guillaume Blackburn</title>
+    <link>https://www.guillaumeblackburn.me/categories/</link>
+    <description>Recent content in Categories on Guillaume Blackburn</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Apr 2020 22:34:49 +0530</lastBuildDate>
+    
+	<atom:link href="https://www.guillaumeblackburn.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Air</title>
+      <link>https://www.guillaumeblackburn.me/categories/air/</link>
+      <pubDate>Thu, 23 Apr 2020 22:34:49 +0530</pubDate>
+      
+      <guid>https://www.guillaumeblackburn.me/categories/air/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
