@@ -1,7 +1,7 @@
 ---
 title: Hello, Internet From My Blog!
 date: 2020-04-23T22:34:49.000+05:30
-readingtime: "1"
+readingtime: "2"
 categories:
 - Intro
 icon: ''
