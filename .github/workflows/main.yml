@@ -7,7 +7,7 @@ name: Hugo Build
 on:
   push:
     branches:
-    - master
+    - gh-pages
   pull_request:
     branches:
     - master
