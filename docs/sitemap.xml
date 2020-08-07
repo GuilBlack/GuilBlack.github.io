@@ -3,7 +3,12 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.guillaumeblackburn.me/categories/air/</loc>
+    <loc>https://www.guillaumeblackburn.me/categories/</loc>
+    <lastmod>2020-04-23T22:34:49+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.guillaumeblackburn.me/</loc>
     <lastmod>2020-04-23T22:34:49+05:30</lastmod>
   </url>
   
@@ -13,12 +18,7 @@
   </url>
   
   <url>
-    <loc>https://www.guillaumeblackburn.me/categories/</loc>
-    <lastmod>2020-04-23T22:34:49+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.guillaumeblackburn.me/</loc>
+    <loc>https://www.guillaumeblackburn.me/categories/intro/</loc>
     <lastmod>2020-04-23T22:34:49+05:30</lastmod>
   </url>
   

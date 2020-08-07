@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Guillaume Blackburn</title>
-    <link>https://www.guillaumeblackburn.me/</link>
-    <description>Recent content on Guillaume Blackburn</description>
+    <title>Intro on Guillaume Blackburn</title>
+    <link>https://www.guillaumeblackburn.me/categories/intro/</link>
+    <description>Recent content in Intro on Guillaume Blackburn</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 23 Apr 2020 22:34:49 +0530</lastBuildDate>
     
-	<atom:link href="https://www.guillaumeblackburn.me/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.guillaumeblackburn.me/categories/intro/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -19,16 +19,6 @@
       <guid>https://www.guillaumeblackburn.me/post/air-nation-list-style/</guid>
       <description>Hello, Internet From My Blog! Hi, that&amp;rsquo;s my first post on this website!
 I am mainly experimenting with Hugo and Github Pages for the moment so you will not see a lot of content.</description>
-    </item>
-    
-    <item>
-      <title>About Me</title>
-      <link>https://www.guillaumeblackburn.me/about/</link>
-      <pubDate>Thu, 23 Apr 2020 19:57:09 +0530</pubDate>
-      
-      <guid>https://www.guillaumeblackburn.me/about/</guid>
-      <description>Intro Hello!
-I&amp;rsquo;m a 2nd-year student at SUPINFO International University and I&amp;rsquo;m currently learning how to use static site generators. :)</description>
     </item>
     
   </channel>
