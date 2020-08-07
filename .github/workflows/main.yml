@@ -29,7 +29,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           push-branch: 'master'
           commit-message: 'Built with GitHub Actions'
-          force-add: 'true'
           force-push: 'true'
           files: docs/
           name: Guillaume Blackburn
