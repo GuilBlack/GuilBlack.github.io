@@ -27,7 +27,7 @@ jobs:
       - name: Build Hugo
         uses: jakejarvis/hugo-build-action@master
       - name: Push to Github
-        uses: dciborow/commit@0.0.2
+        uses: dciborow/commit@0.0.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           push-branch: 'master'
