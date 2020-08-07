@@ -26,8 +26,13 @@ jobs:
         uses: actions/checkout@master
       - name: Build Hugo
         uses: jakejarvis/hugo-build-action@master
-      - name: Upload Artifact
-        uses: actions/upload-artifact@master
+      - name: Push to Github
+        uses: github-actions-x/commit@v2.6
         with:
-          name: website
-          path: ./docs
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          push-branch: 'master'
+          commit-message: 'Built with GitHub Actions'
+          force-add: 'true'
+          files: docs/
+          name: Guillaume Blackburn
+          email: guillaume.blackburn1@gmail.com
