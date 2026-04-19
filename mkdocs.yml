@@ -1,13 +1,36 @@
-site_name: My Docs
+site_name: GuilBlog
+site_url: https://guilblack.github.io
+site_author: Guillaume Blackburn
+site_description: A blog about Graphics Programming
+
 theme:
   name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  features:
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tooltips
+    - navigation.tabs
+    - navigation.sections
+    - navigation.footer
+    - navigation.indexes
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+
   palette:
     # Dark Mode
     - scheme: slate
       toggle:
         icon: material/weather-sunny
         name: Dark mode
-      primary: green
+      primary: deep orange
       accent: deep purple
 
     # Light Mode
@@ -15,11 +38,41 @@ theme:
       toggle:
         icon: material/weather-night
         name: Light mode
-      primary: blue
-      accent: deep orange
+      primary: amber
+      accent: indigo
+
+  font:
+    text: Ubuntu
+    code: Ubuntu Mono
       
 markdown_extensions:
   - attr_list
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - blog:
+      blog_dir: .
+      blog_toc: true
+      post_url_format: "{slug}"
+      authors_profiles: true
+      authors_file: .authors.yml
+  - rss:
+      match_path: "posts/.*"
+      pretty_print: false
+      rss_feed_enabled: true
+      date_from_meta:
+        as_creation: date.created
+        as_update: date.updated
+    # enabled: !ENV [CI, false]  
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+
+extra:
+  homepage: https://guilblack.github.io
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/GuilBlack
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/guillaumeblackburn/
