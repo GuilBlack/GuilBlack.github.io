@@ -1,0 +1,1212 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A blog about Graphics Programming">
+      
+      
+        <meta name="author" content="Guillaume Blackburn">
+      
+      
+        <link rel="canonical" href="https://guilblack.github.io/nanite-style-hierarchical-meshlet-lods-101/">
+      
+      
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Nanite-Style Hierarchical Meshlet LODs 101 - GuilBlog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nanite-style-hierarchical-meshlet-lods-101" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://guilblack.github.io" title="GuilBlog" class="md-header__button md-logo" aria-label="GuilBlog" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GuilBlog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Nanite-Style Hierarchical Meshlet LODs 101
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="deep-purple"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../archive/2026/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Archive
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../category/graphics/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Categories
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../author/guillaume/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Authors
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://guilblack.github.io" title="GuilBlog" class="md-nav__button md-logo" aria-label="GuilBlog" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    GuilBlog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/graphics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Graphics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../category/rendering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rendering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Authors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../author/guillaume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guillaume Blackburn
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpu-pre-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU Pre-processing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU Pre-processing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mesh-cluster-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mesh Cluster Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#node-hierarchy-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Node Hierarchy Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpu-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPU Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GPU Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traversal-initialization-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traversal Initialization &amp; Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#traversal-main-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traversal Main Loop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-redistribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Redistribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task Processing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#results-and-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results And Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href=".." class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://avatars.githubusercontent.com/u/44799173" alt="Guillaume Blackburn">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          <a href="https://github.com/GuilBlack">Guillaume Blackburn</a>
+                        
+                      </strong>
+                      <br>
+                      Software/Graphics Engineer
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-04-19 00:00:00+00:00" class="md-ellipsis">April 19, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../category/graphics/">Graphics</a>, 
+                              <a href="../category/rendering/">Rendering</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              11 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+<h1 id="nanite-style-hierarchical-meshlet-lods-101">Nanite-Style Hierarchical Meshlet LODs 101</h1>
+<figure>
+  <img alt="Cluster Groups Diagram" src="../assets/cluster-lod/Hierarchy_Preview.png" width="500" />
+<br />
+<figcaption>Figure 1: Stanford Bunny in Meshlet LODs</figcaption>
+</figure>
+<p>Hello, I’d like to share with you some insights that I gained while trying to implement a <strong>Nanite-style hierarchical cluster or meshlet LOD system</strong> as a “side quest” to a course project in this article. This project is hosted on <strong>GitHub</strong>, and you can find the code <a href="https://github.com/GuilBlack/NaniteStyleClusterLOD">here</a>.</p>
+<p>First of all, big disclaimer, the objective of the course project was to just understand how the <strong>DirectX 12 graphics API</strong> works as compared to <strong>Vulkan</strong>, which was taught in previous courses. This had a <a href="https://github.com/mrouffet/FromVulkanToDirectX12/tree/9ed24a79e0f3c640171d477dd29cded7a8c12ed9">simple forward renderer</a> as its base project, provided by the course instructor. This was implemented as a <strong>single-file implementation</strong> to facilitate the comparison between the <strong>Vulkan</strong> and <strong>DirectX 12</strong> implementations. Everything that I’ve implemented for the <strong>cluster LOD system</strong> was done in the <a href="https://github.com/GuilBlack/NaniteStyleClusterLOD/blob/main/Sources/mainDX12.cpp">same file as the DirectX 12 renderer</a>, and no implementation was done in the <strong>Vulkan renderer</strong>, as our course project targeted only <strong>DirectX 12</strong> (and I didn’t have enough time to implement it in Vulkan as well 😅). All of this to say, please, do take the <strong>code structure</strong> with a grain (or more like a handful) of salt, as I know that it is really not adapted for <strong>production</strong>.</p>
+<p>Also, this project was heavily inspired by <strong>NVIDIA’s RTX Mega Geometry sample</strong> and, more specifically, the <a href="https://github.com/nvpro-samples/vk_lod_clusters">vk_lod_clusters repo</a>.</p>
+<p>As a final note, I did develop this project with only <strong>NVIDIA GPUs</strong> in mind since I don't have any machines with <strong>AMD</strong> or <strong>Intel GPUs</strong> to test on. And since I'm using <strong>mesh shaders</strong>, they can only run on <strong>RTX 2000 series GPUs or higher</strong>. So, I cannot guarantee that it will work on other GPUs, but I would be happy to receive any feedback. 🙂</p>
+<p>With that out of the way, let’s start with a quick introduction.</p>
+<h2 id="introduction">Introduction</h2>
+<p>The main motivation behind this project, at least in essence for my course, was just to mess around with <strong>mesh shaders</strong> so that we could fiddle with <strong>DirectX 12</strong> while showing our instructor that we understood what we are doing. Since I already have some experience with <strong>DirectX 12</strong> and <a href="https://github.com/GuilBlack/LNEngine/tree/misc/MGP2-Advanced-Rendering">mesh shaders in Vulkan from my own toy graphics engine</a>, and since the course had a pretty vague project description, I decided to branch out a bit to try to implement something that I was always curious about, which was how <strong>UE5’s Nanite system</strong> works under the hood. For those interested in every single aspect of the <strong>Nanite system</strong>, I highly recommend reading the paper <a href="https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances_2021_final.pdf">Nanite: A Deep Dive</a> from the <strong>SIGGRAPH 2021</strong> presentations.</p>
+<p>In this project, since I didn't have much time, I decided to focus only on one aspect of the <strong>Nanite system</strong>, which is the <strong>hierarchical cluster LOD system</strong>. We will call it the <strong>HCLOD</strong> for short. I will talk mainly about 2 things: the <strong>CPU pre-processing step</strong> of the geometry to create the <strong>HCLODs</strong> and the <strong>GPU side implementation</strong> to choose which <strong>LOD</strong> to render. As for <strong>DirectX12 commands</strong>, since it's relatively easy to do, I'll probably mention it quickly while talking about the <strong>GPU implementation</strong>.</p>
+<p>To better follow what I'm going to talk about in this post, I'd highly suggest checking out the <a href="https://github.com/GuilBlack/NaniteStyleClusterLOD/tree/cleanup">repository of the project</a> and looking at the code while reading.</p>
+<h2 id="cpu-pre-processing">CPU Pre-processing</h2>
+<p>The first step to creating the <strong>HCLODs</strong> is to pre-process the <strong>geometry</strong> on the <strong>CPU</strong>. The main idea behind it is to cut down a geometry into smaller pieces containing fewer triangles. Since I'm using <strong>mesh shaders</strong> for the rendering part, it's better to have clusters of maximum <strong>256 triangles/vertices</strong> since that's a <a href="https://microsoft.github.io/DirectX-Specs/d3d/MeshShader.html">hard limit triangles/vertices output for DirectX 12</a>. The <strong>clustering</strong> and <strong>hierarchy creation</strong> are done in the <code>ImportMeshLod</code> function of the <code>mainDX12.cpp</code> file.</p>
+<h3 id="mesh-cluster-generation">Mesh Cluster Generation</h3>
+<p>To do this, since I didn't have much time, I've decided to use the <strong>meshoptimizer</strong>, which has a pretty good implementation of a <strong>cluster builder</strong>. This kind of <strong>cluster generation algorithm</strong> is in and of itself a pretty interesting topic. If you're interested in how it works, I'd recommend <a href="https://jcgt.org/published/0012/02/01/paper-lowres.pdf">this paper</a> that compares multiple <strong>vertex cluster generation algorithms</strong>.</p>
+<p>So, <strong>meshoptimizer's library</strong> comes equipped with some <strong>cluster builder functions</strong> such as <code>meshopt_buildMeshletsBound</code>, <code>meshopt_buildMeshlets</code>, and <code>meshopt_computeMeshletBounds</code>. You'll find an example of how to use it to create simple clusters in my <code>ImportMesh</code> function. Fortunately, in their <code>demo</code> folder, you'll also find a file called <code>clusterlod.h</code>. This file contains a demo for building the <strong>HCLODs</strong> but can also be used as an extension to the main library, as explained in the first comments in the file.</p>
+<p>In that file, we will only be interested in 2 functions: the <code>clodDefaultConfig</code> and <code>clodBuild</code> functions. The first one is just a helper function that fills a <code>clodConfig</code> struct with some default values. The second one is the one that actually builds the <strong>HCLODs</strong>. It takes in 3 parameters: the <code>clodConfig</code>, your arrays of <strong>indices</strong> and <strong>vertices</strong>, as well as a <strong>callback function</strong> that will be called every time a new group of clusters is generated.</p>
+<p>To give a bit more context, clusters are grouped together, and each group of clusters will have a <strong>bounding sphere</strong> that contains all of its clusters. Multiple groups are then merged together to create one group of clusters at a lower <strong>level of detail</strong>, and the new clusters generated for this group contain an <strong>ID/index</strong> to the group of clusters that it was generated from. Hopefully, the little diagram below will help you better visualize this concept (disclaimer: I'm not an artist...).</p>
+<figure>
+  <img alt="Cluster Groups Diagram" src="../assets/cluster-lod/Meshlet_Groups.png" width="400" />
+<br />
+<figcaption>Figure 2: Cluster Groups Diagram</figcaption>
+</figure>
+<p>And here are the structures that we get from the <code>clodBuild</code> function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="n">Cluster</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">float3</span><span class="w">   </span><span class="n">Center</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">    </span><span class="n">Radius</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">    </span><span class="n">Error</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">uint</span><span class="w">     </span><span class="n">VertexStart</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint</span><span class="w">     </span><span class="n">VertexCount</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint</span><span class="w">     </span><span class="n">TriangleStart</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint</span><span class="w">     </span><span class="n">TriangleCount</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">uint</span><span class="w">     </span><span class="n">GroupIndex</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">int</span><span class="w">      </span><span class="n">RefinedGroup</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint</span><span class="w">     </span><span class="n">Padding</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="n">ClusterGroup</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">float3</span><span class="w">  </span><span class="n">center</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">   </span><span class="n">radius</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">   </span><span class="n">error</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">uint</span><span class="w">    </span><span class="n">clusterStart</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint</span><span class="w">    </span><span class="n">clusterCount</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w">     </span><span class="n">depth</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">uint</span><span class="w">    </span><span class="n">levelIndex</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">   </span><span class="n">padding</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>You'll notice that the <code>Group</code> structure contains both a <code>depth</code> and a <code>levelIndex</code> member. They indicate the <strong>Level of Detail (LOD)</strong> of that group, and are both used only to generate the <strong>LOD hierarchy</strong>. This information could be removed from the data sent to the <strong>GPU</strong>. The <code>Cluster</code> structures have a <code>refinedGroup</code> member that points to the group of clusters that it was generated from. It will be useful later when we want to confirm that it's a valid cluster to render or not.</p>
+<h3 id="node-hierarchy-generation">Node Hierarchy Generation</h3>
+<p>From there, we can now generate a <strong>tree structure</strong> of nodes:</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="n">ClusterNode</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">float3</span><span class="w">      </span><span class="n">center</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">       </span><span class="n">radius</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w">       </span><span class="n">error</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">uint32_t</span><span class="w">    </span><span class="n">firstChildOrGroup</span><span class="p">;</span><span class="w"> </span><span class="c1">// child node offset or grp idx depending on if it&#39;s a leaf or not.</span>
+<span class="w">  </span><span class="n">uint32_t</span><span class="w">    </span><span class="n">childCount</span><span class="p">;</span>
+<span class="w">  </span><span class="n">uint32_t</span><span class="w">    </span><span class="n">isLeaf</span><span class="p">;</span><span class="w"> </span><span class="c1">// 1 = leaf, 0 = internal</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>As you can see, we have 2 "types" of nodes: <strong>leaf nodes</strong> and <strong>internal nodes</strong>. The leaf nodes will point to a <strong>group</strong> in a <strong>1:1 relationship</strong>. Note that we can discard the concept of groups entirely if we want to, but I kept them for the sake of clarity. Then there are the internal nodes, which represent either the <strong>root</strong>, what I call <strong>level nodes</strong>, or normal <strong>parent nodes</strong> to the leaf nodes. To generate this tree structure, we do something like this:</p>
+<div class="highlight"><pre><span></span><code>foreach level of detail:
+  foreach group of clusters:
+    create leaf nodes for that LOD
+
+  while number of parent nodes &gt; 1:
+    group nodes together
+    create parent nodes
+
+  use the last parent node as level node
+create root node from level nodes
+</code></pre></div>
+<p>This algorithm is implemented in the <code>BuildNodeHierarchy</code> function of the <code>mainDX12.cpp</code> file. The resulting tree is then stored in a vector of <code>Node</code> structures with the <strong>root node</strong> as the first element and all the <strong>child nodes</strong> of a node stored contiguously as a range of <code>childCount</code> size at <code>firstChildOrGroup</code>. Here is a diagram of the resulting <strong>tree structure</strong>:</p>
+<figure>
+  <img alt="Tree Hierarchy Diagram" src="../assets/cluster-lod/HCLOD.svg" />
+<br />
+<figcaption>Figure 3: Tree Hierarchy Diagram With a Maximum of 2 Child Nodes per Internal/Level Node</figcaption>
+</figure>
+<p>With all these structures generated, we can now send them to the <strong>GPU</strong> for rendering. The next section will cover how to do that and how to implement the <strong>LOD selection</strong> on the <strong>GPU side</strong>.</p>
+<h2 id="gpu-implementation">GPU Implementation</h2>
+<p>Now that we understand how our structures are organized to give us this <strong>hierarchical structure of clusters</strong>, we will focus our attention on how the <strong>LOD selection</strong> and <strong>tree traversal</strong> are done on the <strong>GPU side</strong>. We have essentially 2 essential files that are used for the <strong>GPU implementation</strong>: <code>ComputeInit.hlsl</code> and <code>TraversalRun.hlsl</code>. On the <strong>CPU side</strong>, you'll be able to check what kind of commands I'm recording in the <code>Compute Pass: Clustered LoD Traversal</code> region and the <code>Cluster LOD Dispatch</code> region of the <code>mainDX12.cpp</code> file. The <strong>scene information</strong> is updated in the <code>Update scene data</code> region of the same file.</p>
+<h3 id="traversal-initialization-overview">Traversal Initialization &amp; Overview</h3>
+<p>The <code>ComputeInit.hlsl</code> is just a way to initialize our <strong>packets of information per instance</strong> before we start the <strong>traversal</strong> for each instance. So, we first set the <code>traversalTaskCounter</code> and the <code>traversalInfoWriteCounter</code> (more on these later) to the total number of <strong>instances</strong> in our scene (note that we could <strong>cull instances</strong> at this point) and append some <code>TraversalInfo</code> structs into an <strong>RW Buffer</strong>. This is a lightweight struct that contains only the <strong>instance index</strong> and <strong>node index</strong> (here always 0 since we have only one <strong>root node</strong> and 1 mesh).</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="n">TraversalInfo</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">uint</span><span class="w"> </span><span class="n">objectIdx</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint</span><span class="w"> </span><span class="n">nodeIdx</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>Now, for the <code>TraversalRun.hlsl</code>, you can divide it into 3 main levels of processing: the <strong>main loop</strong> in the <code>run</code> function, the <strong>tasks redistribution</strong> in the <code>processSubtasks</code> function, and finally, the <strong>task result writing</strong> in the <code>processTask</code> function. This file uses a LOT of <strong>wave operations</strong> so that we can efficiently distribute and process the tasks in parallel per <strong>thread groups</strong>. I highly encourage you to read the <a href="https://github.com/microsoft/directxshadercompiler/wiki/wave-intrinsics">wave intrinsics documentation of DirectX</a> or <a href="https://www.khronos.org/blog/vulkan-subgroup-tutorial">the subgroup operations of Vulkan/OpenGL</a> if you are not familiar with them.</p>
+<h3 id="traversal-main-loop">Traversal Main Loop</h3>
+<p>The main loop can be conceptualized as a big <strong>thread pool</strong> reading a <strong>queue of tasks</strong>, which uses a <strong>2 pointer solution</strong>: a <strong>read pointer</strong>, which is the <code>traversalInfoReadCounter</code>, and a <strong>write pointer</strong>, which is the <code>traversalInfoWriteCounter</code>. Each <strong>thread group</strong> will read one task per thread. If it only gets <strong>invalid tasks</strong>, it will wait for new tasks. However, if it's waiting and it sees that the <code>traversalTaskCounter</code> is 0, it will know that there are no more tasks to process and it can safely exit and end its entire execution. And if it gets <strong>valid tasks</strong>, it will send them to the <code>processSubtasks</code> function. Overall, the <strong>main loop</strong> looks like this:</p>
+<div class="highlight"><pre><span></span><code>for each thread group:
+  while true:
+    lock task indices by incrementing the read ptr
+
+    // wait loop
+    while true:
+      if task at index is valid:
+        break
+      if task counter is 0:
+        exit thread group
+
+    get task subcount
+    send task and subcount to processSubtasks
+    decrement task counter by number of valid tasks processed
+</code></pre></div>
+<p>As you can see, there is no risk of an <strong>early exit</strong> of the main loop since the <code>traversalTaskCounter</code> is decremented only after <code>processSubtasks</code>, which increments the <code>traversalInfoWriteCounter</code> and <code>traversalTaskCounter</code> if new tasks are generated to the queue. The <strong>subcount</strong> of a task is essentially the number of <strong>child nodes</strong>, or <strong>clusters</strong> in the case of a <strong>leaf node</strong>, that the task's node has.</p>
+<h3 id="task-redistribution">Task Redistribution</h3>
+<p>Now the <code>processSubtasks</code> function is where the magic happens. As explained previously, each thread has at most a <strong>task</strong> assigned to it with a <strong>subcount</strong> of <strong>child nodes/clusters</strong> to process. Some threads may have a subcount of 0 if they have <strong>invalid tasks</strong>. So that means that they all have a <strong>variable amount of work</strong> to do, which isn't created since the <strong>GPU threads</strong> run in <strong>Single Instruction, Multiple Threads (SIMT)</strong> mode. So, we need to <strong>redistribute the work</strong> among the threads to have a more <strong>balanced workload</strong> and to avoid more <strong>divergence</strong> than we already have. Here is a diagram illustrating the <strong>work redistribution</strong>:</p>
+<figure>
+  <img alt="Tree Hierarchy Diagram" src="../assets/cluster-lod/Task_Redistribution.svg" />
+<br />
+<figcaption>Figure 4: Task Redistribution Among Threads With 4 Threads per Subgroup</figcaption>
+</figure>
+<p>And here is a compact pseudocode of the <code>processSubtasks</code> function:</p>
+<div class="highlight"><pre><span></span><code>Flatten the original per-thread work into one global subtask list.
+
+Compact all threads with work into a shared task list.
+
+For each wave-sized chunk of the flattened list:
+    each thead takes one flattened subtask slot
+    figure out which original thread/task owns that slot
+    convert the global slot index into a local subtask index
+    process it if it is valid
+    remember the last task reached for the next chunk
+</code></pre></div>
+<p>Since it's quite difficult to understand the implementation of this algorithm, I wanted to put only the <strong>intuition</strong> in the <strong>pseudocode</strong> so that it's easier to follow. I did put a little example of its execution in the comments at the bottom of the <code>TraversalRun.hlsl</code> file with explanations of what each <strong>variable</strong> represents and is supposed to have based on an <strong>initial state</strong>.</p>
+<h3 id="task-processing">Task Processing</h3>
+<p>Finally, the <code>processTask</code> function is where we actually process the <strong>task</strong> and write the <strong>results</strong>. Conceptually, what we receive as a <strong>subtask</strong> is just an index to "something" that must be processed in some way. In our case, that "something" is either a <strong>child node</strong> or a <strong>cluster</strong> at the given index. Since they all have <strong>bounding volumes</strong>, we can perform <strong>visibility tests</strong> on them to make a decision on whether we: append the <strong>child node</strong> to the <strong>traversal queue</strong>, append the <strong>cluster</strong> to the <strong>render queue</strong>, or discard it entirely. Here is a compact pseudocode of the <code>processTask</code> function:</p>
+<div class="highlight"><pre><span></span><code>for each subtask: (this is done in parallel by each thread)
+  get the current node
+
+  if node is internal:
+    subtask = child node index
+    take bounding info and screen space error of the child node
+
+  if node is leaf:
+    subtask = cluster index
+    if cluster has refinedGroup:
+      take bounding info and screen space error of the refined group
+    else:
+      take bounding info and screen space error of the cluster
+      mark cluster as valid to render
+
+  test the candidate:
+    is it visible?
+    does its screen-space error say it should be rendered?
+
+  if the candidate is an internal child and should be refined:
+      add it to the next traversal pass.
+      increment the traversalTaskCounter and the traversalInfoWriteCounter.
+
+  else if the candidate is a leaf cluster and should not/cannot be refined:
+      add it to the render list.
+
+  otherwise:
+      discard it.
+</code></pre></div>
+<h2 id="results-and-conclusion">Results And Conclusion</h2>
+<p>Without further ado, here are some results of the <strong>HCLOD system</strong> in action:</p>
+<figure>
+  <img alt="Tree Hierarchy Diagram" src="../assets/cluster-lod/HCLOD_Demo.gif" />
+<br />
+<figcaption>Figure 5: Demo</figcaption>
+</figure>
+<p>In this little demo, there are <strong>1k Stanford Dragons</strong> that have <strong>247k polygons each</strong> for a total of <strong>~247M polygons</strong> in the scene. On my <strong>RTX 3070Ti Laptop edition</strong>, the <strong>frame time</strong> is at a stable <strong>1.5-1.7ms</strong> with the <strong>HCLOD system</strong> enabled and around <strong>40-60ms</strong> without it, depending on the view, since it has some <strong>meshlet frustum culling</strong>.</p>
+<figure>
+  <img alt="Tree Hierarchy Diagram" src="../assets/cluster-lod/Performance_Results.png" />
+<br />
+<figcaption>Figure 5: Performance Results for the HCLOD System</figcaption>
+</figure>
+<p>As a final note, I would like to say that this project was a blast to work on, even with the multiple headaches that I had to go through to get it working. However, as the title suggests, this is just an <strong>"entry" level implementation</strong> and has a lot more room for improvement. For example, it wouldn't be too hard to account for <strong>multiple different meshes</strong> in the scene as long as they are in the same <strong>buffer</strong> (without <strong>buffer device addressing</strong>) and a struct telling where their different <strong>structure ranges</strong> are. Same for the compatibility with <strong>less modern GPUs,</strong> where we could imagine doing a <strong>normal draw indirect</strong> instead of a <strong>mesh draw indirect</strong>. This, however, necessitates a <strong>different mesh format</strong>. Anyway, I hope that this post was informative and that it gave you some insights into how <strong>HCLOD systems</strong> work. If you have any questions or feedback, please feel free to reach out to me on <strong>GitHub</strong> or via <strong>email</strong>! 🙂</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/GuilBlack" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/in/guillaumeblackburn/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tooltips", "navigation.tabs", "navigation.sections", "navigation.footer", "navigation.indexes", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
